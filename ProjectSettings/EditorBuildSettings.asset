@@ -5,10 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/AR Car Spawn.unity
+    guid: e93f0e7d478cfee40be661836e023907
   m_configObjects:
+    UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 96e6b7d4c843bda4c842809d5dec60fc, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: 1236280c3e1b3d54685b2cbf77e8db0d, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 1eccfcab33a575b419215d57ff06a855, type: 2}
   m_UseUCBPForAssetBundles: 0
