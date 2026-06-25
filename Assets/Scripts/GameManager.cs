@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     [SerializeField] private UIManager uiManager;
+    [SerializeField] private LevelLoadManager levelLoadMaanger;
 
     private int score;
 
@@ -42,8 +43,10 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void LoadNextDifficulty()
+    public void LoadNextLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        levelLoadMaanger.LoadNextLevel();
+        uiManager.ResetScore();
     }
+
 }

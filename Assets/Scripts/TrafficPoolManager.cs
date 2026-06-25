@@ -11,10 +11,21 @@ public class TrafficPoolManager : MonoBehaviour
     [SerializeField] private PathWaypoints trafficPath;
 
     private Queue<GameObject> carPool = new Queue<GameObject>();
+    private List<GameObject> masterCarList = new List<GameObject>();
     private float spawnTimer;
     private float currentSpawnInterval;
 
     public float TrafficSpeed => trafficSpeed;
+
+    private void OnEnable()
+    {
+        UIManager.OnNextLevelLoad += ClearAndDestroyPool;
+    }
+
+    private void OnDisable()
+    {
+        UIManager.OnNextLevelLoad -= ClearAndDestroyPool;
+    }
 
     private void Start()
     {
@@ -36,9 +47,11 @@ public class TrafficPoolManager : MonoBehaviour
             }
 
             carPool.Enqueue(car);
+            masterCarList.Add(car);
         }
 
         SpawnVehicleFromPool();
+        spawnTimer = 0f;
         currentSpawnInterval = Random.Range(minSpawnInterval, maxSpawnInterval);
     }
 
@@ -71,7 +84,24 @@ public class TrafficPoolManager : MonoBehaviour
 
     public void ReturnCarToPool(GameObject car)
     {
+        if (car == null) return;
+
         car.SetActive(false);
         carPool.Enqueue(car);
+    }
+
+    public void ClearAndDestroyPool()
+    {
+        carPool.Clear();
+
+        for (int i = 0; i < masterCarList.Count; i++)
+        {
+            if (masterCarList[i] != null)
+            {
+                Destroy(masterCarList[i]);
+            }
+        }
+
+        masterCarList.Clear();
     }
 }

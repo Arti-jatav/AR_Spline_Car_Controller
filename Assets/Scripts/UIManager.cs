@@ -1,9 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
+using System;
 
 public class UIManager : MonoBehaviour
 {
+    public static Action OnNextLevelLoad;
+
     [SerializeField] private GameObject failScreenUi;
     [SerializeField] private GameObject winScreenUi;
     [SerializeField] private TextMeshProUGUI scoreText;
@@ -12,11 +16,9 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        if (GameManager.Instance != null)
-        {
-            restartButton.onClick.AddListener(GameManager.Instance.RestartLevel);
-            nextLevelButton.onClick.AddListener(GameManager.Instance.LoadNextDifficulty);
-        }
+        ResetScore();
+        restartButton.onClick.AddListener(OnResetButtonClicked);
+        nextLevelButton.onClick.AddListener(OnNextLvlButtonClicked);
     }
 
     public void UpdateScoreDisplay(int currentScore)
@@ -32,5 +34,25 @@ public class UIManager : MonoBehaviour
     public void ShowWinScreen()
     {
         winScreenUi.SetActive(true);
+    }
+
+    public void ResetScore()
+    {
+        scoreText.text = "0";
+    }
+
+    private void OnResetButtonClicked()
+    {
+        GameManager.Instance.RestartLevel();
+        ResetScore();
+        failScreenUi.SetActive(false);
+    }
+
+    private void OnNextLvlButtonClicked()
+    {
+        GameManager.Instance.LoadNextLevel();
+        ResetScore();
+        winScreenUi.SetActive(false);
+        OnNextLevelLoad?.Invoke();
     }
 }

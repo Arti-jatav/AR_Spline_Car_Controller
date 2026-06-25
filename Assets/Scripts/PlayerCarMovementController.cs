@@ -2,13 +2,14 @@ using UnityEngine;
 
 public class PlayerCarMovementController : MonoBehaviour
 {
-    [SerializeField] private PathWaypoints playerWaypoints;
     [SerializeField] private float maxSpeed = 10f;
     [SerializeField] private float acceleration = 15f;
     [SerializeField] private float deceleration = 25f;
     [SerializeField] private float rotationSpeed = 15f;
     [SerializeField] private float baseScoreFactor = 1f;
     [SerializeField] private float scoreMultiplierSpeed = 0.5f;
+
+    private PathWaypoints playerWaypoints;
 
     private const float MIN_DIST_THRESHOLD = 0.1f;
 
@@ -21,7 +22,7 @@ public class PlayerCarMovementController : MonoBehaviour
 
     private void Update()
     {
-        if (stopMovement)
+        if (stopMovement || currentWaypointIndex >= playerWaypoints.Waypoints.Length)
         {
             return;
         }
@@ -65,7 +66,7 @@ public class PlayerCarMovementController : MonoBehaviour
 
         if (Vector3.Distance(transform.position, targetPos) < MIN_DIST_THRESHOLD)
         {
-            if (currentWaypointIndex < playerWaypoints.Waypoints.Length - 2)
+            if (currentWaypointIndex < playerWaypoints.Waypoints.Length - 1)
             {
                 currentWaypointIndex++;
             }
@@ -75,5 +76,18 @@ public class PlayerCarMovementController : MonoBehaviour
                 stopMovement = true;
             }
         }
+    }
+
+    public void ResetPlayer(PathWaypoints waypoints)
+    {
+        playerWaypoints = waypoints;
+        transform.position = playerWaypoints.Waypoints[0].position;
+        stopMovement = false;
+        currentWaypointIndex = 0;
+    }
+
+    public void StopPlayerMovement()
+    {
+        stopMovement = true;
     }
 }

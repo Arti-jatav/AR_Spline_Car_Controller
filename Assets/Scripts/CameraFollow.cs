@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
@@ -5,16 +6,35 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private Vector3 cameraOffset = new Vector3(0f, 8f, -10f);
     [SerializeField] private float smoothSpeed = 5f;
 
+    private Vector3 currentVelocity;
+    private Vector3 shakeOffset;
+
     private void LateUpdate()
     {
-        if (targetVehicle == null)
+        Vector3 targetPosition = targetVehicle.position + cameraOffset;
+        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref currentVelocity, smoothSpeed) + shakeOffset;
+    }
+
+    public void TriggerShake(float duration, float magnitude)
+    {
+        StartCoroutine(ShakeRoutine(duration, magnitude));
+    }
+
+    private IEnumerator ShakeRoutine(float duration, float magnitude)
+    {
+        float elapsed = 0f;
+
+        while (elapsed < duration)
         {
-            return;
+            float x = Random.Range(-1f, 1f) * magnitude;
+            float y = Random.Range(-1f, 1f) * magnitude;
+
+            shakeOffset = new Vector3(x, y, 0f);
+            elapsed += Time.deltaTime;
+
+            yield return null;
         }
 
-        Vector3 targetPosition = targetVehicle.position + cameraOffset;
-        Vector3 interpolatedPosition = Vector3.Lerp(transform.position, targetPosition, smoothSpeed * Time.deltaTime);
-
-        transform.position = interpolatedPosition;
+        shakeOffset = Vector3.zero;
     }
 }
