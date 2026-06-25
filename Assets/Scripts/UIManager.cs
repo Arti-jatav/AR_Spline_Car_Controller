@@ -16,7 +16,6 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        ResetScore();
         restartButton.onClick.AddListener(OnResetButtonClicked);
         nextLevelButton.onClick.AddListener(OnNextLvlButtonClicked);
     }
@@ -36,22 +35,15 @@ public class UIManager : MonoBehaviour
         winScreenUi.SetActive(true);
     }
 
-    public void ResetScore()
-    {
-        scoreText.text = "0";
-    }
-
     private void OnResetButtonClicked()
     {
         GameManager.Instance.RestartLevel();
-        ResetScore();
         gameOverScreenUi.SetActive(false);
     }
 
     private void OnNextLvlButtonClicked()
     {
         GameManager.Instance.LoadNextLevel();
-        ResetScore();
         winScreenUi.SetActive(false);
         OnNextLevelLoad?.Invoke();
     }

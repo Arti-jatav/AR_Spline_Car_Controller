@@ -46,7 +46,6 @@ public class GameManager : MonoBehaviour
     public void LoadNextLevel()
     {
         levelLoadMaanger.LoadNextLevel();
-        uiManager.ResetScore();
     }
 
 }
