@@ -14,17 +14,18 @@ public class TrafficPoolManager : MonoBehaviour
     private List<GameObject> masterCarList = new List<GameObject>();
     private float spawnTimer;
     private float currentSpawnInterval;
+    private bool isPoolActive = false;
 
     public float TrafficSpeed => trafficSpeed;
 
     private void OnEnable()
     {
-        UIManager.OnNextLevelLoad += ClearAndDestroyPool;
+        UIManager.OnNextLevelLoad += HandleLevelTransitionCleanup;
     }
 
     private void OnDisable()
     {
-        UIManager.OnNextLevelLoad -= ClearAndDestroyPool;
+        UIManager.OnNextLevelLoad -= HandleLevelTransitionCleanup;
     }
 
     private void Start()
@@ -51,12 +52,16 @@ public class TrafficPoolManager : MonoBehaviour
         }
 
         SpawnVehicleFromPool();
+
         spawnTimer = 0f;
         currentSpawnInterval = Random.Range(minSpawnInterval, maxSpawnInterval);
+        isPoolActive = true;
     }
 
     private void Update()
     {
+        if (!isPoolActive) return;
+
         spawnTimer += Time.deltaTime;
         if (spawnTimer >= currentSpawnInterval)
         {
@@ -90,8 +95,14 @@ public class TrafficPoolManager : MonoBehaviour
         carPool.Enqueue(car);
     }
 
+    private void HandleLevelTransitionCleanup()
+    {
+        ClearAndDestroyPool();
+    }
+
     public void ClearAndDestroyPool()
     {
+        isPoolActive = false;
         carPool.Clear();
 
         for (int i = 0; i < masterCarList.Count; i++)

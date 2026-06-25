@@ -17,8 +17,14 @@ public class LevelLoadManager : MonoBehaviour
 
     public void LoadNextLevel()
     {
-        if (currentLevelIndex < 2) // Because total 3 levels will be there
+        if (currentLevelIndex < 2)  // Because total 3 levels will be there
         {
+            TrafficPoolManager activePool = levelsList[currentLevelIndex].GetComponentInChildren<TrafficPoolManager>();
+            if (activePool != null)
+            {
+                activePool.ClearAndDestroyPool();
+            }
+
             levelsList[currentLevelIndex].SetActive(false);
             currentLevelIndex++;
             levelsList[currentLevelIndex].SetActive(true);
@@ -29,6 +35,4 @@ public class LevelLoadManager : MonoBehaviour
             SceneManager.LoadScene("Choose Task");
         }
     }
-
-  
 }
