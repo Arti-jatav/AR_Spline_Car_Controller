@@ -32,7 +32,7 @@ public class LevelLoadManager : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene("Choose Task");
+            SceneManager.LoadScene(Constants.CHOOSE_TASK_SCENE_NAME);
         }
     }
 }

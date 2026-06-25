@@ -11,8 +11,6 @@ public class PlayerCarMovementController : MonoBehaviour
 
     private PathWaypoints playerWaypoints;
 
-    private const float MIN_DIST_THRESHOLD = 0.1f;
-
     private int currentWaypointIndex = 0;
     private float currentSpeed = 0f;
     private float addedScore = 0f;
@@ -64,7 +62,7 @@ public class PlayerCarMovementController : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
 
-        if (Vector3.Distance(transform.position, targetPos) < MIN_DIST_THRESHOLD)
+        if (Vector3.Distance(transform.position, targetPos) < Constants.MIN_DISTANCE_THRESHOLD)
         {
             if (currentWaypointIndex < playerWaypoints.Waypoints.Length - 1)
             {

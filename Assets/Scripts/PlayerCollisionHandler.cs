@@ -15,7 +15,7 @@ public class PlayerCollisionHandler : MonoBehaviour
     {
         if (hasCrashed) return;
 
-        if (collision.gameObject.CompareTag("AI Car"))
+        if (collision.gameObject.CompareTag(Constants.AI_CAR_TAG))
         {
             hasCrashed = true;
             cameraFollow.TriggerShake(shakeDuration, shakeMagnitude);
@@ -26,7 +26,7 @@ public class PlayerCollisionHandler : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Finish"))
+        if (other.CompareTag(Constants.FINISH_LINE_TAG))
         {
             GameManager.Instance.TriggerLevelWin();
         }

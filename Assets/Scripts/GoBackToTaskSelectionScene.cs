@@ -3,8 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class GoBackToTaskSelectionScene : MonoBehaviour
 {
+
     public void LoadTaskSelectionScene()
     {
-        SceneManager.LoadScene("Choose Task");
+        SceneManager.LoadScene(Constants.CHOOSE_TASK_SCENE_NAME);
     }
 }

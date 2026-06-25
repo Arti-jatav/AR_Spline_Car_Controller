@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
 
     public void TriggerGameOver()
     {
-        uiManager.ShowFailScreen();
+        uiManager.ShowGameOverScreen();
     }
 
     public void TriggerLevelWin()

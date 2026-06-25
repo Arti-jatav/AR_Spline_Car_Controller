@@ -15,11 +15,13 @@ public class TaskLoader : MonoBehaviour
 
     private void OnTask1ButtonClicked()
     {
-        SceneManager.LoadScene("AR Car Spawn");
+        SceneManager.LoadScene(Constants.TASK1_SCENE_NAME);
     }
 
     private void OnTask2ButtonClicked()
     {
-        SceneManager.LoadScene("Car Path Movement");
+        SceneManager.LoadScene(Constants.TASK2_SCENE_NAME);
     }
 }
+
+

@@ -16,16 +16,13 @@ public class AICarMovementController : MonoBehaviour
         currentPath = newPath;
         currentWaypointIndex = 0;
 
-        if (currentPath != null && currentPath.Waypoints.Length > 0)
-        {
-            transform.position = currentPath.Waypoints[0].position;
-            transform.LookAt(currentPath.Waypoints[0].position);
-        }
+        transform.position = currentPath.Waypoints[0].position;
+        transform.LookAt(currentPath.Waypoints[0].position);
     }
 
     private void Update()
     {
-        if (currentPath == null || currentPath.Waypoints.Length == 0 || poolManager == null)
+        if (poolManager == null)
         {
             return;
         }
@@ -41,7 +38,7 @@ public class AICarMovementController : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(dir);
         }
 
-        if (Vector3.Distance(transform.position, targetPos) < 0.1f)
+        if (Vector3.Distance(transform.position, targetPos) < Constants.MIN_DISTANCE_THRESHOLD)
         {
             currentWaypointIndex++;
             if (currentWaypointIndex >= currentPath.Waypoints.Length)

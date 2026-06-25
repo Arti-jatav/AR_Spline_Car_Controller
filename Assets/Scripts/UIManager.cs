@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour
 {
     public static Action OnNextLevelLoad;
 
-    [SerializeField] private GameObject failScreenUi;
+    [SerializeField] private GameObject gameOverScreenUi;
     [SerializeField] private GameObject winScreenUi;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private Button restartButton;
@@ -26,9 +26,9 @@ public class UIManager : MonoBehaviour
         scoreText.text = currentScore.ToString();
     }
 
-    public void ShowFailScreen()
+    public void ShowGameOverScreen()
     {
-        failScreenUi.SetActive(true);
+        gameOverScreenUi.SetActive(true);
     }
 
     public void ShowWinScreen()
@@ -45,7 +45,7 @@ public class UIManager : MonoBehaviour
     {
         GameManager.Instance.RestartLevel();
         ResetScore();
-        failScreenUi.SetActive(false);
+        gameOverScreenUi.SetActive(false);
     }
 
     private void OnNextLvlButtonClicked()

@@ -10,8 +10,9 @@ public class TrafficPoolManager : MonoBehaviour
     [SerializeField] private float trafficSpeed = 5f;
     [SerializeField] private PathWaypoints trafficPath;
 
+    // Using Queue for Object pooling
     private Queue<GameObject> carPool = new Queue<GameObject>();
-    private List<GameObject> masterCarList = new List<GameObject>();
+    private List<GameObject> allCarList = new List<GameObject>();
     private float spawnTimer;
     private float currentSpawnInterval;
     private bool isPoolActive = false;
@@ -30,11 +31,6 @@ public class TrafficPoolManager : MonoBehaviour
 
     private void Start()
     {
-        if (aiCarPrefabs == null || aiCarPrefabs.Length == 0)
-        {
-            return;
-        }
-
         for (int i = 0; i < poolSize; i++)
         {
             int prefabIndex = i % aiCarPrefabs.Length;
@@ -42,13 +38,10 @@ public class TrafficPoolManager : MonoBehaviour
             car.SetActive(false);
 
             AICarMovementController trafficScript = car.GetComponent<AICarMovementController>();
-            if (trafficScript != null)
-            {
-                trafficScript.SetPoolManager(this);
-            }
+            trafficScript.SetPoolManager(this);
 
             carPool.Enqueue(car);
-            masterCarList.Add(car);
+            allCarList.Add(car);
         }
 
         SpawnVehicleFromPool();
@@ -78,10 +71,7 @@ public class TrafficPoolManager : MonoBehaviour
             GameObject car = carPool.Dequeue();
 
             AICarMovementController trafficScript = car.GetComponent<AICarMovementController>();
-            if (trafficScript != null)
-            {
-                trafficScript.ResetToStartPath(trafficPath);
-            }
+            trafficScript.ResetToStartPath(trafficPath);
 
             car.SetActive(true);
         }
@@ -89,8 +79,6 @@ public class TrafficPoolManager : MonoBehaviour
 
     public void ReturnCarToPool(GameObject car)
     {
-        if (car == null) return;
-
         car.SetActive(false);
         carPool.Enqueue(car);
     }
@@ -105,14 +93,14 @@ public class TrafficPoolManager : MonoBehaviour
         isPoolActive = false;
         carPool.Clear();
 
-        for (int i = 0; i < masterCarList.Count; i++)
+        for (int i = 0; i < allCarList.Count; i++)
         {
-            if (masterCarList[i] != null)
+            if (allCarList[i] != null)
             {
-                Destroy(masterCarList[i]);
+                Destroy(allCarList[i]);
             }
         }
 
-        masterCarList.Clear();
+        allCarList.Clear();
     }
 }

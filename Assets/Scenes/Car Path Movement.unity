@@ -946,7 +946,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c082aff68b34924aae1a617144c1278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
-  failScreenUi: {fileID: 1121626520}
+  gameOverScreenUi: {fileID: 1121626520}
   winScreenUi: {fileID: 363172949}
   scoreText: {fileID: 295431604}
   restartButton: {fileID: 103613965}
